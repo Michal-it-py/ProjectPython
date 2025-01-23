@@ -1,0 +1,43 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div>
+
+    <form method="post" action="{{ url_for('add')}}" enctype="multipart/form-data">
+        
+        <div class="mb-3">
+            <label class="form-label">
+                Co sprzedajesz:
+            </label>
+            <input type="text" class="form-control" name="item_text">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Dodaj Zdjęcie</label>
+            <input type="file" class="form-control" id="exampleInputPassword1" name="img">
+          </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Opis produktu:</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name = "description_text"></textarea>
+          </div>
+        <div class="mb-3">
+            <label class="form-label">
+                Cena:
+            </label>
+            <input type="number" class="form-control" name="price_tekst">
+        </div>
+        <p></p>
+        <select class="form-select" aria-label="Default select example" name = "category_name">
+            <option selected>Wybierz kategorie</option>
+            <option value="1">Elektronika</option>
+            <option value="2">Ubrania</option>
+            <option value="3">Dom</option>
+        </select>
+        
+        <p></p>
+        <div style = "text-align: center;" color = "green">
+        <button type="submit" style = "text-align: center" class="btn btn-primary mb-3">Dodaj ogłoszenie</button>
+        </div>
+    </form>
+</div>      
+{% endblock %}

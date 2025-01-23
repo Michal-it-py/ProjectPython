@@ -1,0 +1,27 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div style="padding: 51px;">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+
+        {% for item in items %}
+        <div class="col">
+          <div class="card">
+            <img style = "max-height: 230px;" src="{{item.image_path}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Kategoria: {{ item.category.name }}</h5>
+              <h5 class="card-title">Produkt: {{ item.tittle }}</h5>
+              <h5 class="card-title">Opis: {{ item.description }}</h5>
+              <h5 class="card-title">Cena: {{ item.price }} zł.</h5>
+              
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        
+        
+      </div>
+</div>
+
+{% endblock %}
