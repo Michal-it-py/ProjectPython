@@ -14,7 +14,6 @@ app.config['SECURITY_REGISTERABLE'] = True
 app.config['SECURITY_SEND_REGISTER_EMAIL'] = False
 
 db = SQLAlchemy(app)
-
 roles_user = db.Table(
     'roles_users',
     db.Column('user_id', db.ForeignKey('user.id')),
@@ -70,8 +69,6 @@ def index():
     items = Item.query.filter_by(user_id=current_user.get_id())
     categories = Category.query.all()
     return render_template("add.html", items=items, categories=categories)
-
-from flask_security import logout_user
 
 @app.route("/logout")
 @login_required
@@ -139,8 +136,32 @@ def look():
     categories = Category.query.all()
     return render_template("lookfor.html", items=items, categories=categories)
 
+@app.route("/edit_ad/<int:item_id>", methods=["GET", "POST"])
+@login_required
+def edit_ad(item_id):
+    item = Item.query.get_or_404(item_id)
 
+    if item.user_id != current_user.get_id():
+        return redirect(url_for("home"))
 
+    categories = Category.query.all()
+
+    if request.method == "POST":
+        item.tittle = request.form["item_tittle"]
+        item.description = request.form["item_description"]
+        item.price = float(request.form["item_price"])
+        item.category_id = int(request.form["category_id"])
+
+        img = request.files.get("img")
+        if img:
+            img.save(os.path.join("static/userimages", img.filename))
+            item.image_path = os.path.join("static/userimages", img.filename)
+
+        db.session.commit()
+        flash("Ogłoszenie zostało zaktualizowane.", "success")
+        return redirect(url_for("my_ads"))
+
+    return render_template("edit_ad.html", item=item, categories=categories)
 
 if __name__ == "__main__":
     with app.app_context():
