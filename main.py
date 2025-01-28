@@ -72,6 +72,14 @@ def index():
     categories = Category.query.all() 
     return render_template("add.html",items=items,categories=categories)
 
+from flask_security import logout_user
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
 @app.route("/add", methods = ['POST'])
 @login_required  
 def add():
