@@ -3,25 +3,46 @@
 {% block content %}
 
 <div style="padding: 51px;">
-    <div class="row row-cols-1 row-cols-md-2 g-4">
+    <h1>Ogłoszenia</h1>
 
+    <!-- Formularz filtrowania kategorii -->
+    <form method="get" action="/lookfor" class="mb-4">
+        <label for="category">Filtruj według kategorii:</label>
+        <select name="category_id" id="category" class="form-select w-25 d-inline-block">
+            <option value="">Wszystkie</option>
+            {% for category in categories %}
+            <option value="{{ category.id }}" {% if request.args.get('category_id') == category.id|string %}selected{% endif %}>
+                {{ category.name }}
+            </option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">Filtruj</button>
+    </form>
+
+    <!-- Wyświetlanie ogłoszeń -->
+    {% if items %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
         {% for item in items %}
         <div class="col">
-          <div class="card">
-            <img style = "max-height: 230px;" src="{{item.image_path}}" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Kategoria: {{ item.category.name }}</h5>
-              <h5 class="card-title">Produkt: {{ item.tittle }}</h5>
-              <h5 class="card-title">Opis: {{ item.description }}</h5>
-              <h5 class="card-title">Cena: {{ item.price }} zł.</h5>
-              
+            <div class="card">
+                {% if item.image_path %}
+                <img style="max-height: 230px;" src="{{ item.image_path }}" class="card-img-top" alt="Zdjęcie produktu">
+                {% else %}
+                <img style="max-height: 230px;" src="/static/default.jpg" class="card-img-top" alt="Domyślne zdjęcie">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">Kategoria: {{ item.category.name }}</h5>
+                    <h5 class="card-title">Produkt: {{ item.tittle }}</h5>
+                    <p class="card-text">Opis: {{ item.description }}</p>
+                    <h5 class="card-title">Cena: {{ item.price }} zł</h5>
+                </div>
             </div>
-          </div>
         </div>
         {% endfor %}
-        
-        
-      </div>
+    </div>
+    {% else %}
+    <p class="text-center">Brak ogłoszeń w wybranej kategorii.</p>
+    {% endif %}
 </div>
 
 {% endblock %}

@@ -103,11 +103,17 @@ def add():
 
         return redirect("/index")
 
+
 @app.route("/lookfor")
 def look():
-    items = Item.query.filter_by(user_id = current_user.get_id())
-    categories = Category.query.all() 
-    return render_template("lookfor.html",items=items,categories=categories)
+    category_id = request.args.get("category_id")  # Pobierz kategorię z zapytania
+    if category_id:
+        items = Item.query.filter_by(category_id=category_id).all()
+    else:
+        items = Item.query.all()
+
+    categories = Category.query.all()
+    return render_template("lookfor.html", items=items, categories=categories)
 
 if __name__ == "__main__":
     with app.app_context():
