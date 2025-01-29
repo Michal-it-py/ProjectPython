@@ -1,10 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h2>Edytuj Ogłoszenie</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="item_tittle" class="form-label">Tytuł</label>
+        <input type="text" class="form-control" id="item_tittle" name="item_tittle" value="{{ item.tittle }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="item_description" class="form-label">Opis</label>
+        <textarea class="form-control" id="item_description" name="item_description" rows="4" required>{{ item.description }}</textarea>
+    </div>
+    <div class="mb-3">
+        <label for="item_price" class="form-label">Cena</label>
+        <input type="number" class="form-control" id="item_price" name="item_price" value="{{ item.price }}" step="0.01" required>
+    </div>
+    <div class="mb-3">
+        <label for="category_id" class="form-label">Kategoria</label>
+        <select name="category_id" id="category_id" class="form-select">
+            {% for category in categories %}
+                <option value="{{ category.id }}" {% if item.category.id == category.id %}selected{% endif %}>{{ category.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="img" class="form-label">Zdjęcie</label>
+        <input type="file" class="form-control" id="img" name="img">
+    </div>
+    <div class="mb-3">
+        <button type="submit" class="btn btn-success">Zapisz zmiany</button>
+    </div>
+</form>
+
+{% endblock %}

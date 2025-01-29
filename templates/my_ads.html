@@ -1,10 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h2>Moje Ogłoszenia</h2>
+
+{% if items %}
+    <ul class="list-group">
+        {% for item in items %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <h5>{{ item.tittle }}</h5>
+                    <p>{{ item.description }}</p>
+                    <p><strong>Cena:</strong> {{ item.price }} zł</p>
+                    <p><strong>Kategoria:</strong> {{ item.category.name }}</p>
+                </div>
+                <div class="d-flex">
+                    <!-- Link do edycji ogłoszenia -->
+                    <a href="{{ url_for('edit_ad', item_id=item.id) }}" class="btn btn-warning ms-2">Edytuj</a>
+
+                    <!-- Potwierdzenie przed usunięciem -->
+                    <form action="{{ url_for('delete_ad', item_id=item.id) }}" method="POST" onsubmit="return confirm('Czy na pewno chcesz usunąć to ogłoszenie?');">
+                        <button type="submit" class="btn btn-danger ms-2">Usuń</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <div class="alert alert-warning mt-3">
+        <strong>Uwaga!</strong> Nie masz żadnych ogłoszeń.
+    </div>
+{% endif %}
+
+{% endblock %}
