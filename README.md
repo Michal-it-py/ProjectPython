@@ -1,8 +1,8 @@
 # ProjectPython
 
-Portal ogłoszeniowy z możliwościami dodawania, edytowania i przeglądania ogłoszeń.
+#Portal ogłoszeniowy z możliwościami dodawania, edytowania i przeglądania ogłoszeń.
 Stworzony przez:
-Michał Piwońśki
-Mikołaj Czajkowski
-Norbert Chaberek
-Szymon Szostek
+Michał Piwońśki,
+Mikołaj Czajkowski,
+Norbert Chaberek,
+Szymon Szostek.
